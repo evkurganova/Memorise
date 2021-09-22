@@ -7,20 +7,20 @@
 
 import SwiftUI
 
+let sportEmojis = ["🎾", "⚽️", "🏀", "🏈", "⚾️", "🏐", "🏉", "🎱", "🥏", "🏓", "🛼"]
+let sweetiesEmojis = ["🍡", "🍧", "🍨", "🍦", "🥧", "🧁", "🍰", "🎂", "🍮", "🍭", "🍬", "🍫", "🍩", "🍪", "🍯"]
+let animalsEmojis = ["🦖", "🐙", "🦑", "🐠", "🐳", "🐬", "🦓", "🐈", "🐈‍⬛", "🦒", "🦘", "🐖", "🦩", "🐿", "🐁", "🦥", "🦔"]
+
 struct ContentView: View {
     
-    var sportEmojis = ["🎾", "⚽️", "🏀", "🏈", "⚾️", "🏐", "🏉", "🎱", "🥏", "🏓", "🛼"]
-    var sweetiesEmojis = ["🍡", "🍧", "🍨", "🍦", "🥧", "🧁", "🍰", "🎂", "🍮", "🍭", "🍬", "🍫", "🍩", "🍪", "🍯"]
-    var animalsEmojis = ["🦖", "🐙", "🦑", "🐠", "🐳", "🐬", "🦓", "🐈", "🐈‍⬛", "🦒", "🦘", "🐖", "🦩", "🐿", "🐁", "🦥", "🦔"]
+    @State var emojis: [String] = sportEmojis
 
-    @State var emojisCount = 4
-    
     var body: some View {
         VStack {
             Text("MemoRise")
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
-                    ForEach(sportEmojis[0..<emojisCount], id: \.self) { emoji in
+                    ForEach(emojis, id: \.self) { emoji in
                         CardView(content: emoji)
                             .aspectRatio(2/3, contentMode: .fit)
                     }
@@ -29,34 +29,50 @@ struct ContentView: View {
             }
             Spacer()
             HStack {
-                removeButton
+                sportButton
                 Spacer()
-                addButton
+                sweetiesButton
+                Spacer()
+                animalsButton
             }
         }
         .font(.largeTitle)
         .padding()
     }
     
-    var removeButton: some View {
+    var sportButton: some View {
         Button {
-            if emojisCount > 0 {
-                emojisCount -= 1
-            }
+            emojis = sportEmojis.shuffled()
         } label: {
-            Image(systemName: "minus")
+            VStack {
+                Image(systemName: "sportscourt")
+                Text("sport").font(.body)
+            }
         }
     }
     
-    var addButton: some View {
+    var sweetiesButton: some View {
         Button {
-            if emojisCount < sportEmojis.count {
-                emojisCount += 1
-            }
+            emojis = sweetiesEmojis.shuffled()
         } label: {
-            Image(systemName: "plus")
+            VStack {
+                Image(systemName: "bolt.heart")
+                Text("sweeties").font(.body)
+            }
         }
     }
+    
+    var animalsButton: some View {
+        Button {
+            emojis = animalsEmojis.shuffled()
+        } label: {
+            VStack {
+                Image(systemName: "tortoise")
+                Text("animals").font(.body)
+            }
+        }
+    }
+
 }
 
 struct CardView: View {
