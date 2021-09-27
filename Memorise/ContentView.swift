@@ -7,78 +7,77 @@
 
 import SwiftUI
 
-let sportEmojis = ["🎾", "⚽️", "🏀", "🏈", "⚾️", "🏐", "🏉", "🎱", "🥏", "🏓", "🛼"]
-let sweetiesEmojis = ["🍡", "🍧", "🍨", "🍦", "🥧", "🧁", "🍰", "🎂", "🍮", "🍭", "🍬", "🍫", "🍩", "🍪", "🍯"]
-let animalsEmojis = ["🦖", "🐙", "🦑", "🐠", "🐳", "🐬", "🦓", "🐈", "🐈‍⬛", "🦒", "🦘", "🐖", "🦩", "🐿", "🐁", "🦥", "🦔"]
-
 struct ContentView: View {
     
-    @State var emojis: [String] = sportEmojis
-
+    @ObservedObject var viewModel: EmojiMemoryGame
+    
     var body: some View {
         VStack {
             Text("MemoRise")
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
-                    ForEach(emojis, id: \.self) { emoji in
-                        CardView(content: emoji)
+                    ForEach(viewModel.cards) { card in
+                        CardView(content: card.content, isFaceUp: card.isFaceUp)
                             .aspectRatio(2/3, contentMode: .fit)
+                            .onTapGesture {
+                                viewModel.choose(card)
+                            }
                     }
                 }
                 .foregroundColor(.red)
             }
-            Spacer()
-            HStack {
-                sportButton
-                Spacer()
-                sweetiesButton
-                Spacer()
-                animalsButton
-            }
+//            Spacer()
+//            HStack {
+//                sportButton
+//                Spacer()
+//                sweetiesButton
+//                Spacer()
+//                animalsButton
+//            }
         }
         .font(.largeTitle)
         .padding()
     }
     
-    var sportButton: some View {
-        Button {
-            emojis = sportEmojis.shuffled()
-        } label: {
-            VStack {
-                Image(systemName: "sportscourt")
-                Text("sport").font(.body)
-            }
-        }
-    }
-    
-    var sweetiesButton: some View {
-        Button {
-            emojis = sweetiesEmojis.shuffled()
-        } label: {
-            VStack {
-                Image(systemName: "bolt.heart")
-                Text("sweeties").font(.body)
-            }
-        }
-    }
-    
-    var animalsButton: some View {
-        Button {
-            emojis = animalsEmojis.shuffled()
-        } label: {
-            VStack {
-                Image(systemName: "tortoise")
-                Text("animals").font(.body)
-            }
-        }
-    }
+//    var sportButton: some View {
+//        Button {
+//            emojis = sportEmojis.shuffled()
+//        } label: {
+//            VStack {
+//                Image(systemName: "sportscourt")
+//                Text("sport").font(.body)
+//            }
+//        }
+//    }
+//
+//    var sweetiesButton: some View {
+//        Button {
+//            emojis = sweetiesEmojis.shuffled()
+//        } label: {
+//            VStack {
+//                Image(systemName: "bolt.heart")
+//                Text("sweeties").font(.body)
+//            }
+//        }
+//    }
+//
+//    var animalsButton: some View {
+//        Button {
+//            emojis = animalsEmojis.shuffled()
+//        } label: {
+//            VStack {
+//                Image(systemName: "tortoise")
+//                Text("animals").font(.body)
+//            }
+//        }
+//    }
 
 }
 
 struct CardView: View {
-    
+        
     var content: String
-    @State var isFaceUp = true
+    var isFaceUp: Bool
     
     var body: some View {
         ZStack {
@@ -90,9 +89,6 @@ struct CardView: View {
             } else {
                 shape.fill()
             }
-        }
-        .onTapGesture {
-            isFaceUp = !isFaceUp
         }
     }
 }
@@ -115,11 +111,12 @@ struct CardView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
+        let game = EmojiMemoryGame()
         Group {
-            ContentView()
+            ContentView(viewModel: game)
                 .preferredColorScheme(.light)
                 .previewDevice("iPhone 12 mini")
-            ContentView()
+            ContentView(viewModel: game)
                 .preferredColorScheme(.dark)
                 .previewDevice("iPhone 12 mini")
         }
