@@ -17,7 +17,7 @@ struct ContentView: View {
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
                     ForEach(viewModel.cards) { card in
-                        CardView(content: card.content, isFaceUp: card.isFaceUp)
+                        CardView(content: card.content, isFaceUp: card.isFaceUp, isMatched: card.isMatched)
                             .aspectRatio(2/3, contentMode: .fit)
                             .onTapGesture {
                                 viewModel.choose(card)
@@ -78,6 +78,7 @@ struct CardView: View {
         
     var content: String
     var isFaceUp: Bool
+    var isMatched: Bool
     
     var body: some View {
         ZStack {
@@ -86,6 +87,8 @@ struct CardView: View {
                 shape.fill().foregroundColor(.white)
                 shape.strokeBorder(lineWidth: 2.0)
                 Text(content).font(.largeTitle)
+            } else if isMatched {
+                shape.opacity(0)
             } else {
                 shape.fill()
             }

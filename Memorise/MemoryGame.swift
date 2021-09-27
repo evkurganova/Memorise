@@ -7,15 +7,30 @@
 
 import Foundation
 
-struct MemoryGame<CardContentType> {
+struct MemoryGame<CardContentType> where CardContentType: Equatable {
     
     private(set) var cards: [Card]
     
-    mutating func choose(_ choosenCard: Card) {
-        let choosenIndex = cards.firstIndex { card in
-            card.id == choosenCard.id
-        } ?? 0
-        cards[choosenIndex].isFaceUp.toggle()
+    private var indexOfLastFacedUpCard: Int?
+    
+    mutating func choose(_ card: Card) {
+        if let choosenIndex = cards.firstIndex(where: { $0.id == card.id })
+           , !cards[choosenIndex].isMatched
+           , !cards[choosenIndex].isFaceUp {
+            if let potentialMatchIndex = indexOfLastFacedUpCard {
+                if cards[potentialMatchIndex].content == cards[choosenIndex].content {
+                    cards[choosenIndex].isMatched = true
+                    cards[potentialMatchIndex].isMatched = true
+                }
+                indexOfLastFacedUpCard = nil
+            } else {
+                for index in cards.indices {
+                    cards[index].isFaceUp = false
+                }
+                indexOfLastFacedUpCard = choosenIndex
+            }
+            cards[choosenIndex].isFaceUp.toggle()
+        }
     }
     
     init(numberOfPairOfCards: Int, createCardContent: (Int) -> CardContentType) {

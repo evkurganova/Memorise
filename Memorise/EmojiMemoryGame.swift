@@ -22,7 +22,7 @@ class EmojiMemoryGame: ObservableObject {
     @Published private var model = createMemoryGame()
     
     var cards: [MemoryGame<String>.Card] {
-        model.cards
+        model.cards.filter { !$0.isMatched }
     }
     
     // MARK: - Intent(s)
