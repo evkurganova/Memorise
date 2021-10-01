@@ -16,7 +16,7 @@ struct GameTheme {
     
 }
 
-enum EmojiGameTheme {
+enum EmojiGameTheme: CaseIterable {
     case sport
     case sweeties
     case animals

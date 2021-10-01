@@ -13,20 +13,21 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Text("MemoRise")
+            Text(viewModel.title)
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 70))]) {
                     ForEach(viewModel.cards) { card in
                         CardView(content: card.content, isFaceUp: card.isFaceUp, isMatched: card.isMatched)
-                            .aspectRatio(2/3, contentMode: .fit)
+                            .aspectRatio(1, contentMode: .fit)
                             .onTapGesture {
                                 viewModel.choose(card)
                             }
                     }
                 }
-                .foregroundColor(.red)
+                .foregroundColor(viewModel.color)
             }
-//            Spacer()
+            Spacer()
+            shuffleButton
 //            HStack {
 //                sportButton
 //                Spacer()
@@ -61,16 +62,16 @@ struct ContentView: View {
 //        }
 //    }
 //
-//    var animalsButton: some View {
-//        Button {
-//            emojis = animalsEmojis.shuffled()
-//        } label: {
-//            VStack {
-//                Image(systemName: "tortoise")
-//                Text("animals").font(.body)
-//            }
-//        }
-//    }
+    var shuffleButton: some View {
+        Button {
+            viewModel.changeTheme()
+        } label: {
+            VStack {
+                Image(systemName: "tortoise")
+                Text("random theme").font(.body)
+            }
+        }
+    }
 
 }
 
