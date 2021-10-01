@@ -33,13 +33,17 @@ struct MemoryGame<CardContentType> where CardContentType: Equatable {
         }
     }
     
-    init(numberOfPairOfCards: Int, createCardContent: (Int) -> CardContentType) {
+    init(numberOfPairOfCards: Int, cardsContent: [CardContentType]) {
         cards = [Card]()
+        
+        let shuffledCardsContent = cardsContent.shuffled()
+
         for pairIndex in 0..<numberOfPairOfCards {
-            let content = createCardContent(pairIndex)
+            let content = shuffledCardsContent[pairIndex]
             cards.append(Card(content: content, id: pairIndex * 2))
             cards.append(Card(content: content, id: pairIndex * 2 + 1))
         }
+        cards.shuffle()
     }
     
     struct Card: Identifiable {
