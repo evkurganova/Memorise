@@ -17,10 +17,14 @@ struct GameTheme {
 }
 
 enum EmojiGameTheme: CaseIterable {
+    
     case sport
     case sweeties
     case animals
-    
+    case food
+    case transport
+    case city
+
     var title: String {
         switch self {
         case .sport:
@@ -29,6 +33,12 @@ enum EmojiGameTheme: CaseIterable {
             return "sweeties theme"
         case .animals:
             return "animals theme"
+        case .food:
+            return "food theme"
+        case .transport:
+            return "transport theme"
+        case .city:
+            return "city theme"
         }
     }
     
@@ -40,6 +50,12 @@ enum EmojiGameTheme: CaseIterable {
             return "pink"
         case .animals:
             return "green"
+        case .food:
+            return "grey"
+        case .transport:
+            return "yellow"
+        case .city:
+            return "blue"
         }
     }
 
@@ -51,6 +67,12 @@ enum EmojiGameTheme: CaseIterable {
             return 5
         case .animals:
             return 20
+        case .food:
+            return 4
+        case .transport:
+            return 5
+        case .city:
+            return 3
         }
     }
 
@@ -62,6 +84,12 @@ enum EmojiGameTheme: CaseIterable {
             return ["🍡", "🍧", "🍨", "🍦", "🥧", "🧁", "🍰", "🎂", "🍮", "🍭", "🍬", "🍫", "🍩", "🍪", "🍯"]
         case .animals:
             return ["🦖", "🐙", "🦑", "🐠", "🐳", "🐬", "🦓", "🐈", "🐈‍⬛", "🦒", "🦘", "🐖", "🦩", "🐿", "🐁", "🦥", "🦔"]
+        case .food:
+            return ["🥞", "🍕", "🥩", "🍣", "🍱", "🍙", "🥘", "🍜"]
+        case .transport:
+            return ["✈️", "🚀", "⛵️", "🚁", "🚆", "🚠", "🚖", "🚎", "🛵", "🚋"]
+        case .city:
+            return ["🌇", "🏙", "🌃", "🛣", "🌉"]
         }
     }
 

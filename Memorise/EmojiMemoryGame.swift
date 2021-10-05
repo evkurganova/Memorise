@@ -48,7 +48,6 @@ class EmojiMemoryGame: ObservableObject {
     }
     
     func changeTheme() {
-//        objectWillChange.send()
         gameTheme = EmojiGameTheme.allCases.randomElement() ?? .animals
         model = MemoryGame<String>(numberOfPairOfCards: gameTheme.minimalNumberOfPairOfCards, cardsContent: gameTheme.emojis)
     }
