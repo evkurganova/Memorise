@@ -10,7 +10,8 @@ import Foundation
 struct MemoryGame<CardContentType> where CardContentType: Equatable {
     
     private(set) var cards: [Card]
-    
+    private(set) var score: Int = 0
+
     private var indexOfLastFacedUpCard: Int?
     
     mutating func choose(_ card: Card) {
@@ -21,6 +22,9 @@ struct MemoryGame<CardContentType> where CardContentType: Equatable {
                 if cards[potentialMatchIndex].content == cards[choosenIndex].content {
                     cards[choosenIndex].isMatched = true
                     cards[potentialMatchIndex].isMatched = true
+                    score += 2
+                } else {
+                    score -= 1
                 }
                 indexOfLastFacedUpCard = nil
             } else {
