@@ -7,15 +7,6 @@
 
 import Foundation
 
-struct GameTheme {
-    
-    var title: String
-    var color: String
-    var numberOfPairOfCards: Int
-    var emojis: [String]
-    
-}
-
 enum EmojiGameTheme: CaseIterable {
     
     case sport

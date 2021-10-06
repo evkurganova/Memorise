@@ -12,7 +12,13 @@ struct MemoryGame<CardContentType> where CardContentType: Equatable {
     private(set) var cards: [Card]
     private(set) var score: Int = 0
 
-    private var indexOfLastFacedUpCard: Int?
+    private var indexOfLastFacedUpCard: Int? {
+        get {
+            let indicesOfFaceUpCards = cards.indices.filter { cards[$0].isFaceUp }
+            return indicesOfFaceUpCards.count == 1 ? indicesOfFaceUpCards.first : nil
+        }
+        set { cards.indices.forEach { cards[$0].isFaceUp = ($0 == newValue) } }
+    }
     
     mutating func choose(_ card: Card) {
         if let choosenIndex = cards.firstIndex(where: { $0.id == card.id })
@@ -26,19 +32,15 @@ struct MemoryGame<CardContentType> where CardContentType: Equatable {
                 } else {
                     score -= 1
                 }
-                indexOfLastFacedUpCard = nil
+                cards[choosenIndex].isFaceUp = true
             } else {
-                for index in cards.indices {
-                    cards[index].isFaceUp = false
-                }
                 indexOfLastFacedUpCard = choosenIndex
             }
-            cards[choosenIndex].isFaceUp.toggle()
         }
     }
     
     init(numberOfPairOfCards: Int, cardsContent: [CardContentType]) {
-        cards = [Card]()
+        cards = []
         
         let shuffledCardsContent = cardsContent.shuffled()
 
@@ -53,8 +55,8 @@ struct MemoryGame<CardContentType> where CardContentType: Equatable {
     struct Card: Identifiable {
         var isFaceUp = false
         var isMatched = false
-        var content: CardContentType
-        var id: Int
+        let content: CardContentType
+        let id: Int
     }
     
 }
