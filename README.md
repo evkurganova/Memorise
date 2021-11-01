@@ -1,0 +1,1 @@
+Проект с курса https://cs193p.sites.stanford.edu/ 2021 года, чтобы попробовать SwiftUI.
